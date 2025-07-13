@@ -131,3 +131,8 @@ This incident revealed opportunities to harden the environment against similar a
 
 * **Detection Engineering:** Create new high-fidelity alerts in Sentinel based on the specific `IoCs` and `TTPs` observed in this attack.
 
+---
+
+### Closing Summary:
+In the chaos of an active incident, having a plan and a framework to follow like NIST 800-61, is everything. While multiple KQL queries could have eventually gotten you what you need to build the story from beginning to end, applying structure is key.
+
