@@ -79,7 +79,7 @@ DeviceFileEvents
 | project Timestamp, ActionType, FileName, PreviousFolderPath, InitiatingProcessAccountName, InitiatingProcessFileName
 | sort by Timestamp asc
 ```
-![Uploading image.png…]()
+
 
 
 #### Key Indicators of Compromise (IoCs)
