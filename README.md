@@ -1,5 +1,12 @@
 # Threat Hunt: Zero-Day Ransomware (PwnCrypt) Outbreak
 
+### Executive Summary
+A proactive threat hunt, initiated in response to reports of a new ransomware strain named "PwnCrypt," successfully identified an active infection on a corporate device. The investigation traced the attack's full lifecycle, from a malicious PowerShell download to the unauthorized encryption of files and privilege escalation. The infected host was immediately contained using Microsoft Defender for Endpoint, and the incident was used to develop strategic recommendations for improving the organization's security posture.
+
+*Full technical details of this hunt, including the KQL queries, IoCs, and MITRE ATT&CK mapping, are available in the [Project Appendix](https://github.com/jorjuarez/Cybersecurity-Portfolio-Public/tree/main/PwnCrypt%20Ransomware%20Project%20Appendix).*
+
+---
+
 ### 1. Project Objective & Scenario
 
 This project simulates a proactive threat hunt for a new ransomware strain, "PwnCrypt," and details the subsequent incident response according to the NIST 800-61 framework.
@@ -25,7 +32,9 @@ DeviceNetworkEvents
 | where DeviceName == target_device and Timestamp == datetime(2025-05-10T19:01:44.3886333Z)
 | where isnotempty(RemoteUrl)
 | project Timestamp, ActionType, InitiatingProcessCommandLine, RemoteUrl
+```
 
+```kql
 // Find files being renamed with the PwnCrypt extension by the SYSTEM account
 let target_device = "arcwin10";
 DeviceFileEvents
