@@ -112,6 +112,7 @@ A report was sent to the manager of arcanalyst1 to initiate an internal investig
 #### Eradication & Recovery
 A ticket was submitted to have the infected machine reimaged and rebuilt, with user files to be restored from clean backups.
 
+---
 ### 4. MITRE ATT&CK® Framework Mapping
 The observed attacker behavior maps to several tactics and techniques. A link to the full mapping is available in the [Project Appendix.](https://github.com/jorjuarez/Cybersecurity-Portfolio-Public/tree/main/PwnCrypt%20Ransomware%20Project%20Appendix#mitre-attck-framework).
 
