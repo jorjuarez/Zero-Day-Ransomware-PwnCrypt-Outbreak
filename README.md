@@ -51,6 +51,8 @@ DeviceProcessEvents
 | project Timestamp,AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, ProcessCommandLine, FileName, FileSize, AdditionalFields
 | sort by Timestamp desc
 ```
+<img width="1171" height="409" alt="image" src="https://github.com/user-attachments/assets/52f4288c-94d3-4a8f-8515-7a853f632000" />
+
 #### Finding 3: Corroborating the Full Command Line
 To get the full, unobfuscated command line used by the attacker, the investigation pivoted to the `DeviceEvents` table. This confirmed the use of `Invoke-WebRequest` to download the file and `cmd.exe` to launch the script, all in one line.
 ```kql
@@ -64,6 +66,8 @@ DeviceEvents
 | project Timestamp, ActionType, InitiatingProcessSHA1, InitiatingProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessParentFileName, AdditionalFields
 | sort by Timestamp asc
 ```
+<img width="1676" height="301" alt="image" src="https://github.com/user-attachments/assets/920a649e-6b3d-4526-a740-62923fd9e469" />
+
 #### Finding 4: Ransomware Activity & Privilege Escalation 
 Later, at approximately **3:13 PM**, the hunt uncovered evidence of the script's true purpose. File renaming activity consistent with ransomware was observed, and crucially, it was being initiated by the **SYSTEM account**, indicating the script had successfully escalated its privileges.
 
@@ -75,6 +79,8 @@ DeviceFileEvents
 | project Timestamp, ActionType, FileName, PreviousFolderPath, InitiatingProcessAccountName, InitiatingProcessFileName
 | sort by Timestamp asc
 ```
+![Uploading image.png…]()
+
 
 #### 3. Incident Response
 Upon confirming active ransomware behavior, the following response actions were taken immediately:
