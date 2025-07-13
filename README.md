@@ -1,4 +1,4 @@
-# Threat Hunt: Zero-Day Ransomware (PwnCrypt) Outbreak
+# Threat Hunt: Zero-Day Ransomware (PwnCrypt) Outbreak 💻⚠
 
 ### Executive Summary
 A proactive threat hunt, initiated in response to reports of a new ransomware strain named "PwnCrypt," successfully identified an active infection on a corporate device. The investigation traced the attack's full lifecycle, from a malicious PowerShell download to the unauthorized encryption of files. The infected host was immediately contained using Microsoft Defender for Endpoint, and the incident was used to develop strategic recommendations for improving the organization's security posture.
