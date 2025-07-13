@@ -1,4 +1,4 @@
-# Threat Hunt: Zero-Day Ransomware (PwnCrypt) Outbreak 💻⚠
+# Threat Hunt: Zero-Day Ransomware (PwnCrypt) Outbreak 💻⚠️
 
 ### Executive Summary
 A proactive threat hunt, initiated in response to reports of a new ransomware strain named "PwnCrypt," successfully identified an active infection on a corporate device. The investigation traced the attack's full lifecycle, from a malicious PowerShell download to the unauthorized encryption of files. The infected host was immediately contained using Microsoft Defender for Endpoint, and the incident was used to develop strategic recommendations for improving the organization's security posture.
@@ -22,16 +22,17 @@ This project simulates a proactive threat hunt for a new ransomware strain, "Pwn
 The investigation began by querying Microsoft Defender XDR logs for IoCs related to the PwnCrypt ransomware on the device `arcwin10`, belonging to the user `arcanalyst1`.
 
 #### Finding 1: Malicious Script Download
-At **2:01 PM on May 10, 2025**, the user account `arcanalyst1` was observed downloading the malicious PowerShell script, `pwncrypt.ps1`, from an external GitHub repository.
+At **2:01 PM on May 10, 2025**, the user account `arcanalyst1` initiated a PowerShell command to download the malicious script, `pwncrypt.ps1`, from an external GitHub repository and save it to the `C:\programdata` directory.
 
 **Supporting Query:**
 ```kql
 let target_device = "arcwin10";
 DeviceNetworkEvents
 | where DeviceName == target_device and Timestamp == datetime(2025-05-10T19:01:44.3886333Z)
-| where isnotempty(RemoteUrl)
 | project Timestamp, ActionType, InitiatingProcessCommandLine, RemoteUrl, InitiatingProcessAccountName, InitiatingProcessFileSize
+| where isnotempty(RemoteUrl)
 ```
+<img width="912" height="357" alt="image" src="https://github.com/user-attachments/assets/7c1f7754-d348-4596-b730-b3e1bf6b417c" />
 
 ---
 
@@ -41,22 +42,21 @@ Immediately after being downloaded, the script was executed using a command that
 **Supporting Query:**
 ```kql
 let target_device = "arcwin10";
-let start_time = datetime(2025-05-10T18:50:00Z); 
-let end_time = datetime(2025-05-10T19:21:00Z);
+let start_time = datetime(2025-05-10T18:50:00Z); //May 10, 2025 1:50:00 PM CDT
+let end_time = datetime(2025-05-10T19:21:00Z); //May 10, 2025 2:21:00 PM CDT
 DeviceProcessEvents
 | where DeviceName == target_device
 | where Timestamp between (start_time .. end_time )
 | where InitiatingProcessFileName contains "powershell" and AccountName == "arcanalyst1"
-| where ProcessCommandLine contains "pwncrypt.ps1"
-| project Timestamp, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, ProcessCommandLine, FileName, FileSize
+| project Timestamp,AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, ProcessCommandLine, FileName, FileSize, AdditionalFields
 | sort by Timestamp desc
 ```
-#### 3. Corroborating Evidence
-To get the full command line used in the initial trigger, the DeviceEvents table was queried. This confirmed the use of Invoke-WebRequest to download the file and cmd.exe to launch the script, all in one line.
+#### Finding 3: Corroborating the Full Command Line
+To get the full, unobfuscated command line used by the attacker, the investigation pivoted to the `DeviceEvents` table. This confirmed the use of `Invoke-WebRequest` to download the file and `cmd.exe` to launch the script, all in one line.
 ```kql
 let target_device = "arcwin10";
-let start_time = datetime(2025-05-10T18:50:00Z);
-let end_time = datetime(2025-05-10T19:21:00Z);
+let start_time = datetime(2025-05-10T18:50:00Z); //May 10, 2025 1:50:00 PM CDT
+let end_time = datetime(2025-05-10T19:21:00Z); //May 10, 2025 2:21:00 PM CDT
 DeviceEvents
 | where DeviceName == target_device
 | where Timestamp between (start_time .. end_time )
@@ -64,16 +64,28 @@ DeviceEvents
 | project Timestamp, ActionType, InitiatingProcessSHA1, InitiatingProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessParentFileName, AdditionalFields
 | sort by Timestamp asc
 ```
+#### Finding 4: Ransomware Activity & Privilege Escalation 
+Later, at approximately **3:13 PM**, the hunt uncovered evidence of the script's true purpose. File renaming activity consistent with ransomware was observed, and crucially, it was being initiated by the **SYSTEM account**, indicating the script had successfully escalated its privileges.
+
+```kql
+let target_device = "arcwin10";
+DeviceFileEvents
+| where DeviceName == target_device
+| where ActionType == "FileRenamed" and FolderPath contains "pwncrypt"
+| project Timestamp, ActionType, FileName, PreviousFolderPath, InitiatingProcessAccountName, InitiatingProcessFileName
+| sort by Timestamp asc
+```
+
 #### 3. Incident Response
 Upon confirming active ransomware behavior, the following response actions were taken immediately:
 
-Containment
+#### Containment
 The infected host, arcwin10, was isolated from the network using Microsoft Defender for Endpoint to prevent the ransomware from spreading.
 
-Communication
+#### Communication
 A report was sent to the manager of arcanalyst1 to initiate an internal investigation into how the malicious command was run under the user's account.
 
-Eradication & Recovery
+#### Eradication & Recovery
 A ticket was submitted to have the infected machine reimaged and rebuilt, with user files to be restored from clean backups.
 
 ### 4. MITRE ATT&CK® Framework Mapping
