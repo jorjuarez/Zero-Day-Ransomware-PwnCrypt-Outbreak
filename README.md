@@ -57,3 +57,18 @@ Upon confirming active ransomware and privilege escalation, the following respon
 * **Eradication & Recovery:** A ticket was submitted to have the infected machine reimaged and rebuilt, with user files to be restored from clean backups.
 ---
 
+### 4. MITRE ATT&CK® Framework Mapping
+The observed attacker behavior maps to the following tactics and techniques can be viewed [here](https://github.com/jorjuarez/Cybersecurity-Portfolio-Public/tree/main/PwnCrypt%20Ransomware%20Project%20Appendix#mitre-attck-framework).
+
+---
+### 5. Strategic Improvements & Recommendations
+This incident revealed opportunities to harden the environment against similar attacks. The following layered security improvements were recommended:
+
+* **User Training:** Implement immediate and recurring user security awareness training, focusing on phishing, malicious file recognition, and safe Browse habits.
+
+* **Endpoint Hardening:**
+    * Use Windows Defender Application Control (`WDAC`) or AppLocker to restrict the execution of unauthorized scripts.
+    * Enforce stricter PowerShell Execution Policies via Group Policy to prevent bypassing.
+
+* **Detection Engineering:** Create new high-fidelity alerts in Sentinel based on the specific `IoCs` (Indicators of Compromise) and `TTPs` (Tactics, Techniques, and Procedures) observed in this attack (e.g., alert on any script execution from `C:\ProgramData`).
+
