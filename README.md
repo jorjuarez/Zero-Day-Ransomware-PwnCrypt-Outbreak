@@ -82,7 +82,7 @@ DeviceFileEvents
 
 <img width="2094" height="742" alt="image" src="https://github.com/user-attachments/assets/64dc7e4f-8653-43a8-a872-88ff66fd587c" />
 
-
+---
 
 #### Key Indicators of Compromise (IoCs)
 
@@ -98,6 +98,7 @@ DeviceFileEvents
 * **Initial Compromise Context:**
     * **User / Device:** `arcanalyst1` on `arcwin10`
 
+---
 
 #### 3. Incident Response
 Upon confirming active ransomware behavior, the following response actions were taken immediately:
