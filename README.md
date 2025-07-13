@@ -82,6 +82,21 @@ DeviceFileEvents
 ![Uploading image.png…]()
 
 
+#### Key Indicators of Compromise (IoCs)
+
+* **Malware Script (`pwncrypt.ps1`):**
+    * **File Path:** `C:\programdata\pwncrypt.ps1`
+    * **SHA256:** `739d9923e2ddf467ce9f997c82d36bfb72accc90acc40573eaa5e1abb2097cd8`
+* **Delivery & Initial Execution:**
+    * **Source URL (Defanged):** `hxxps[://]raw[.]githubusercontent[.]com/joshmadakor1/lognpacific-public/refs/heads/main/cyber-range/entropy-gorilla/pwncrypt[.]ps1`
+    * **Observed Command:** `Invoke-WebRequest ...; cmd /c powershell.exe -ExecutionPolicy Bypass ...`
+* **Ransomware Impact:**
+    * **Encrypted File Suffix:** `_pwncrypt.csv`
+    * **Ransom Note Link:** `__________decryption-instructions.lnk`
+* **Initial Compromise Context:**
+    * **User / Device:** `arcanalyst1` on `arcwin10`
+
+
 #### 3. Incident Response
 Upon confirming active ransomware behavior, the following response actions were taken immediately:
 
