@@ -80,6 +80,8 @@ DeviceFileEvents
 | sort by Timestamp asc
 ```
 
+<img width="2094" height="742" alt="image" src="https://github.com/user-attachments/assets/64dc7e4f-8653-43a8-a872-88ff66fd587c" />
+
 
 
 #### Key Indicators of Compromise (IoCs)
